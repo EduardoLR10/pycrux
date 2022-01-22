@@ -6,7 +6,7 @@ class ErrorOp(enum.Enum):
     byte =  3
     removal = 4
     unreachable = 5
-
+    
 errDict = {"-b" : ErrorOp.bit,
            "-y" : ErrorOp.byte,
            "-g" : ErrorOp.gust,
@@ -19,4 +19,9 @@ class ErrorInfo(enum.Enum):
     emptyFile = 4
     wrongDataFile = 5
     noErrorArg = 6
-    unreachable = 7
+    serialDevice = 7
+    unreachable = 8
+
+class ErrorSerial(enum.Enum):
+    noPortProvided = 1
+    closedPort = 2

@@ -5,6 +5,7 @@ from utils import parseDataFile
 from utils import parseErrorType
 from randomize import Randomize
 from info import Info
+from serializer import Serializer
 
 def main():
     
@@ -35,6 +36,10 @@ def main():
     Info.infoMsg("Original data: " + str(random.dataBytes))
     random.applyError()
     Info.infoMsg("New data: " + str(random.dataBytes))
+
+    serial = Serializer(19200, 'COM6')
+
+    serial.sendData(random.dataBytes)
 
 if __name__ == "__main__":
     main()

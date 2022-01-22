@@ -33,7 +33,7 @@ class Randomize:
 
         first = random.randint(0, size - howmany)
         
-        Info.reportMsg(str(howmany) + " byte(s) will be changed, starting from byte " + str(first))
+        Info.reportMsg(str(howmany) + " bytes will be changed, starting from byte " + str(first))
 
         for i in range(first, first + howmany):
             previous = self.dataBytes[i]
