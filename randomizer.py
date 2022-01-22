@@ -3,7 +3,7 @@ from error import ErrorInfo
 from info import Info
 import random
 
-class Randomize:
+class Randomizer:
     def __init__(self, errType, dataBytes):
         self.errType = errType
         self.dataBytes = dataBytes

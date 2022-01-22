@@ -3,7 +3,7 @@ from error import ErrorInfo
 from error import ErrorOp
 from utils import parseDataFile
 from utils import parseErrorType
-from randomizer import Randomize
+from randomizer import Randomizer
 from info import Info
 from serializer import Serializer
 
@@ -31,7 +31,7 @@ def main():
         return
 
     Info.infoMsg("Setting up randomizer ...")
-    random = Randomize(err, data)
+    random = Randomizer(err, data)
 
     Info.infoMsg("Original data: " + str(random.dataBytes))
     random.applyError()
