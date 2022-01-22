@@ -32,7 +32,9 @@ def main():
     Info.infoMsg("Setting up randomizer ...")
     random = Randomize(err, data)
 
+    Info.infoMsg("Original data: " + str(random.dataBytes))
     random.applyError()
+    Info.infoMsg("New data: " + str(random.dataBytes))
 
 if __name__ == "__main__":
     main()

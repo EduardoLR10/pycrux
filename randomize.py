@@ -59,7 +59,20 @@ class Randomize:
         
     def __execRemoval(self):
         Info.infoMsg("Applying removal of byte error inside data randomly ...")
-        print("TODO: Make random algorithm to do removal of byte error")
-            
+
+        Info.reportMsg("Chosen error operation: Removal")
+        
+        size = len(self.dataBytes)
+        chosenByte = random.randint(0, size - 1)
+
+        newByteArray = []
+
+        for i in range(0, size):
+            if i != chosenByte:
+                newByteArray.append(self.dataBytes[i])
+        
+        Info.reportMsg("Byte " + str(chosenByte) + " with value " + str(self.dataBytes[chosenByte]) + " was removed")
+        self.dataBytes = newByteArray
+        
         
         
