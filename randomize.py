@@ -13,7 +13,7 @@ class Randomize:
             self.__execGust()
         elif self.errType == ErrorOp.bit:
             self.__execBit()
-        elif self_errType == ErrorOp.byte:
+        elif self.errType == ErrorOp.byte:
             self.__execByte()
         elif self.errType == ErrorOp.removal:
             self.__execRemoval()
@@ -32,6 +32,7 @@ class Randomize:
             howmany = random.randint(0, size - 1)
 
         first = random.randint(0, size - howmany)
+        
         Info.reportMsg(str(howmany) + " byte(s) will be changed, starting from byte " + str(first))
 
         for i in range(first, first + howmany):
@@ -45,8 +46,17 @@ class Randomize:
 
     def __execByte(self):
         Info.infoMsg("Applying byte error inside data randomly ...")
-        print("TODO: Make random algorithm to do byte error")
 
+        Info.reportMsg("Chosen error operation: Byte")
+
+        size = len(self.dataBytes)
+        chosenByte = random.randint(0, size - 1)
+
+        previous = self.dataBytes[chosenByte]
+        self.dataBytes[chosenByte] = int.from_bytes(random.randbytes(1), byteorder = 'big')
+
+        Info.reportMsg("Byte " + str(chosenByte) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[chosenByte]))
+        
     def __execRemoval(self):
         Info.infoMsg("Applying removal of byte error inside data randomly ...")
         print("TODO: Make random algorithm to do removal of byte error")
