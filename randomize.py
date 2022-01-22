@@ -1,6 +1,7 @@
 from error import ErrorOp
 from error import ErrorInfo
 from info import Info
+import random
 
 class Randomize:
     def __init__(self, errType, dataBytes):
@@ -20,9 +21,24 @@ class Randomize:
             Info.errorMsg("Unreachable in applyError()", ErrorInfo.unreachable)
 
     def __execGust(self):
-        Info.infoMsg("Applying gust error across data randomly ...")
-        print("TODO: Make random algorithm to do gust error")
+        Info.infoMsg("Applying gust error inside data randomly ...")
+        
+        Info.reportMsg("Chosen error operation: Gust")
+        
+        size = len(self.dataBytes)
+        howmany = 0
+        
+        while howmany == 0:
+            howmany = random.randint(0, size - 1)
 
+        first = random.randint(0, size - howmany)
+        Info.reportMsg(str(howmany) + " byte(s) will be changed, starting from byte " + str(first))
+
+        for i in range(first, first + howmany):
+            previous = self.dataBytes[i]
+            self.dataBytes[i] = int.from_bytes(random.randbytes(1), byteorder = 'big')
+            Info.reportMsg("Byte " + str(i) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[i]))
+        
     def __execBit(self):
         Info.infoMsg("Applying bit error inside data randomly ...")
         print("TODO: Make random algorithm to do bit error")

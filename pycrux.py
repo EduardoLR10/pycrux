@@ -33,7 +33,6 @@ def main():
     random = Randomize(err, data)
 
     random.applyError()
-    
 
 if __name__ == "__main__":
     main()

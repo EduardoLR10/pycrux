@@ -1,4 +1,5 @@
 from error import ErrorInfo
+from error import ErrorOp
 from error import errDict
 
 
@@ -35,7 +36,9 @@ class Info :
     def infoMsg(msg):
         print("[INFO] " + msg)
 
-    
+    @staticmethod
+    def reportMsg(msg):
+        print("[REPORT] " + msg)
             
 
 
