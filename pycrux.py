@@ -3,7 +3,7 @@ from error import ErrorInfo
 from error import ErrorOp
 from utils import parseDataFile
 from utils import parseErrorType
-from randomize import Randomize
+from randomizer import Randomize
 from info import Info
 from serializer import Serializer
 
@@ -22,7 +22,7 @@ def main():
     Info.infoMsg("Checking error operation ...")
 
     if len(sys.argv) < 3:
-        Info.errorMsg("No error argument!", ErrorInfo.noErrorArg)
+        Info.errorMsg("No error introduction argument!", ErrorInfo.noErrorArg)
         return
     
     err = parseErrorType(sys.argv[2])
