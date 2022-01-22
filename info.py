@@ -20,12 +20,14 @@ class Info :
         
         if err == ErrorInfo.operation:
             Info.printHelpOps()
-        elif err == ErrorInfo.dataFile:
-            print("[ERROR] Enter a data file in the command line!")
+        elif err == ErrorInfo.noDataFile:
+            print("[ERROR] Provide a data file in the command line!")
         elif err == ErrorInfo.emptyFile:
             print("[ERROR] The data file cannot be empty!")
         elif err == ErrorInfo.wrongDataFile:
             print("[ERROR] Format example: 0x00 0x01 0x02 0x03 ...")
+        elif err == ErrorInfo.noErrorArg:
+            print("[ERROR] Provide an error argument in the command line!")
         else:
             print("[ERROR] Unreachable state! Program is nuked!")
 

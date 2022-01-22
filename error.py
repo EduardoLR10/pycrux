@@ -5,6 +5,7 @@ class ErrorOp(enum.Enum):
     bit = 2
     byte =  3
     removal = 4
+    unreachable = 5
 
 errDict = {"-b" : ErrorOp.bit,
            "-y" : ErrorOp.byte,
@@ -14,6 +15,8 @@ errDict = {"-b" : ErrorOp.bit,
 class ErrorInfo(enum.Enum):
     operation = 1
     dataFile = 2
-    emptyFile = 3
-    wrongDataFile = 4
-    unreachable = 5
+    noDataFile = 3
+    emptyFile = 4
+    wrongDataFile = 5
+    noErrorArg = 6
+    unreachable = 7
