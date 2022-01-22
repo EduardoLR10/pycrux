@@ -21,14 +21,14 @@ class Randomize:
             Info.errorMsg("Unreachable in applyError()", ErrorInfo.unreachable)
 
     def __execGust(self):
-        Info.infoMsg("Applying gust error inside data randomly ...")
-        
+        Info.infoMsg("Randomly applying gust error within data ...")
+
         Info.reportMsg("Chosen error operation: Gust")
         
         size = len(self.dataBytes)
         howmany = 0
         
-        while howmany == 0:
+        while howmany < 2:
             howmany = random.randint(0, size - 1)
 
         first = random.randint(0, size - howmany)
@@ -41,37 +41,66 @@ class Randomize:
             Info.reportMsg("Byte " + str(i) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[i]))
         
     def __execBit(self):
-        Info.infoMsg("Applying bit error inside data randomly ...")
-        print("TODO: Make random algorithm to do bit error")
+        Info.infoMsg("Randomly applying bit error within data ...")
+
+        Info.reportMsg("Chosen error operation: Bit")
+
+        size = len(self.dataBytes)
+        chosenByteIndex = random.randint(0, size - 1)
+
+        Info.reportMsg("Byte " + str(chosenByteIndex) + " with value " + str(self.dataBytes[chosenByteIndex]) + " was chosen to apply bit error")
+
+        bitstring = format(self.dataBytes[chosenByteIndex], 'b').zfill(8)
+
+        Info.reportMsg("Original bit string of byte " + str(chosenByteIndex) + ": " + bitstring)
+
+        chosenBitIndex = random.randint(0, 7)
+
+        Info.reportMsg("Bit " + str(chosenBitIndex) + " with value " + str(bitstring[chosenBitIndex]) + " was flipped")
+
+        newBitstring = ""
+
+        for i in range(0, 8):
+            if i == chosenBitIndex:
+                if bitstring[i] == '1':
+                    newBitstring += "0"
+                else:
+                    newBitstring += "1"
+            else:
+                newBitstring += bitstring[i]
+
+        Info.reportMsg("New bit string of byte " + str(chosenByteIndex) + ": " + newBitstring)
+
+        self.dataBytes[chosenByteIndex] = int(newBitstring, 2)
 
     def __execByte(self):
-        Info.infoMsg("Applying byte error inside data randomly ...")
+        Info.infoMsg("Randomly applying byte error within data ...")       
 
         Info.reportMsg("Chosen error operation: Byte")
 
         size = len(self.dataBytes)
-        chosenByte = random.randint(0, size - 1)
+        chosenByteIndex = random.randint(0, size - 1)
 
-        previous = self.dataBytes[chosenByte]
-        self.dataBytes[chosenByte] = int.from_bytes(random.randbytes(1), byteorder = 'big')
+        previous = self.dataBytes[chosenByteIndex]
+        self.dataBytes[chosenByteIndex] = int.from_bytes(random.randbytes(1), byteorder = 'big')
 
-        Info.reportMsg("Byte " + str(chosenByte) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[chosenByte]))
+        Info.reportMsg("Byte " + str(chosenByte) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[chosenByteIndex]))
         
     def __execRemoval(self):
-        Info.infoMsg("Applying removal of byte error inside data randomly ...")
+        Info.infoMsg("Randomly applying removal of byte error within data ...")
 
         Info.reportMsg("Chosen error operation: Removal")
         
         size = len(self.dataBytes)
-        chosenByte = random.randint(0, size - 1)
+        chosenByteIndex = random.randint(0, size - 1)
 
         newByteArray = []
 
         for i in range(0, size):
-            if i != chosenByte:
+            if i != chosenByteIndex:
                 newByteArray.append(self.dataBytes[i])
         
-        Info.reportMsg("Byte " + str(chosenByte) + " with value " + str(self.dataBytes[chosenByte]) + " was removed")
+        Info.reportMsg("Byte " + str(chosenByte) + " with value " + str(self.dataBytes[chosenByteIndex]) + " was removed")
         self.dataBytes = newByteArray
         
         
