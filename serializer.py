@@ -4,7 +4,6 @@ import serial
 
 class Serializer:
     def __init__(self, baudrate, port):
-        Info.infoMsg("Creating serializer ...")
         
         self.ser = serial.Serial()
         

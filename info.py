@@ -2,6 +2,7 @@ from error import ErrorInfo
 from error import ErrorOp
 from error import errDict
 
+global __REPORT__
 
 class Info :
 
@@ -43,7 +44,9 @@ class Info :
 
     @staticmethod
     def reportMsg(msg):
-        print("[REPORT] " + msg)
+        if __REPORT__:
+            print("[REPORT] " + msg)
+        
             
 
 
