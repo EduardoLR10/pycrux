@@ -1,7 +1,7 @@
 import enum
 
 class ErrorOp(enum.Enum):
-    gust = 1
+    burst = 1
     bit = 2
     byte =  3
     removal = 4
@@ -9,7 +9,7 @@ class ErrorOp(enum.Enum):
     
 errDict = {"-b" : ErrorOp.bit,
            "-y" : ErrorOp.byte,
-           "-g" : ErrorOp.gust,
+           "-u" : ErrorOp.burst,
            "-r" : ErrorOp.removal}
 
 class ErrorInfo(enum.Enum):
@@ -20,7 +20,8 @@ class ErrorInfo(enum.Enum):
     wrongDataFile = 5
     noErrorArg = 6
     serialDevice = 7
-    unreachable = 8
+    notEnoughBytes = 8
+    unreachable = 9
 
 class ErrorSerial(enum.Enum):
     noPortProvided = 1

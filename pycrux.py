@@ -54,5 +54,10 @@ def main():
     serial.sendData(random.dataBytes)
     Info.infoMsg("Data was sent successfully!")
 
+    Info.infoMsg("Receiving data using serial port ...")
+    data = serial.receiveData()
+    Info.infoMsg("Received: " + str(data))
+    Info.infoMsg("Data was received successfully!")
+
 if __name__ == "__main__":
     main()

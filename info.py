@@ -35,6 +35,8 @@ class Info :
             print("[ERROR] Provide an error argument in the command line!")
         elif err == ErrorInfo.serialDevice:
             print("[ERROR] Error with serial device!")
+        elif err == ErrorInfo.notEnoughBytes:
+            print("[ERROR] Not enough bytes!")
         else:
             print("[ERROR] Unreachable state! Program is nuked!")
 

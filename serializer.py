@@ -35,7 +35,7 @@ class Serializer:
         
         self.ser.close()
 
-    def receiveData(self, data):
+    def receiveData(self):
         if not self.ser.is_open:
             Info.reportMsg("The port is closed. Opening...")
              
@@ -46,7 +46,7 @@ class Serializer:
         self.ser.flush()
         
         Info.reportMsg("Reading data ...")
-        
+
         data = self.ser.read_all()
         
         Info.reportMsg("Closing port ...")

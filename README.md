@@ -7,7 +7,7 @@ Pycrux is a simple python program created with the intent of applying different 
 
 There are 4 different types of errors available in the current version of the software:
 
-- Gust Error: it changes an existing bytes randomly. It will always change 2 or more bytes in sequence
+- Burst Error: it changes an existing bytes randomly. It will always change 2 or more bytes in sequence
 - Byte Error: it changes one existing byte randomly.
 - Bit Error: it changes a random bit in a randomly chosen byte.
 - Removal Error: it removes one existing byte randomly.
@@ -20,7 +20,7 @@ To execute the software, being in the correct directory, use something like:
 
 In the example `x` needs to be one of the following:
 
-- -g for Gust Error
+- -u for Burst Error
 - -y for Byte Error
 - -b for Bit Error
 - -r for Removal Error

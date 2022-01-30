@@ -9,8 +9,8 @@ class Randomizer:
         self.dataBytes = dataBytes
 
     def applyError(self):
-        if self.errType == ErrorOp.gust:
-            self.__execGust()
+        if self.errType == ErrorOp.burst:
+            self.__execBurst()
         elif self.errType == ErrorOp.bit:
             self.__execBit()
         elif self.errType == ErrorOp.byte:
@@ -20,12 +20,17 @@ class Randomizer:
         else:
             Info.errorMsg("Unreachable in applyError()", ErrorInfo.unreachable)
 
-    def __execGust(self):
-        Info.infoMsg("Randomly applying gust error within data ...")
+    def __execBurst(self):
+        Info.infoMsg("Randomly applying burst error within data ...")
 
-        Info.reportMsg("Chosen error operation: Gust")
+        Info.reportMsg("Chosen error operation: Burst")
         
         size = len(self.dataBytes)
+
+        if size < 2:
+            Info.errorMsg("It is necessary 2 or more bytes to use Burst error!", ErrorInfo.notEnoughBytes)
+            return
+        
         howmany = 0
         
         while howmany < 2:
@@ -84,7 +89,7 @@ class Randomizer:
         previous = self.dataBytes[chosenByteIndex]
         self.dataBytes[chosenByteIndex] = int.from_bytes(random.randbytes(1), byteorder = 'big')
 
-        Info.reportMsg("Byte " + str(chosenByte) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[chosenByteIndex]))
+        Info.reportMsg("Byte " + str(chosenByteIndex) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[chosenByteIndex]))
         
     def __execRemoval(self):
         Info.infoMsg("Randomly applying removal of byte error within data ...")
@@ -100,7 +105,7 @@ class Randomizer:
             if i != chosenByteIndex:
                 newByteArray.append(self.dataBytes[i])
         
-        Info.reportMsg("Byte " + str(chosenByte) + " with value " + str(self.dataBytes[chosenByteIndex]) + " was removed")
+        Info.reportMsg("Byte " + str(chosenByteIndex) + " with value " + str(self.dataBytes[chosenByteIndex]) + " was removed")
         self.dataBytes = newByteArray
         
         
