@@ -17,9 +17,15 @@ class Randomizer:
             self.__execByte()
         elif self.errType == ErrorOp.removal:
             self.__execRemoval()
+        elif self.errType == ErrorOp.noError:
+            self.__noError()
         else:
             Info.errorMsg("Unreachable in applyError()", ErrorInfo.unreachable)
 
+    def __noError(self):
+        Info.infoMsg("No error will be applied to data ...")
+        return
+            
     def __execBurst(self):
         Info.infoMsg("Randomly applying burst error within data ...")
 

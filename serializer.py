@@ -14,6 +14,8 @@ class Serializer:
         Info.reportMsg("Setting port to: " + str(port))
         
         self.ser.port = port
+
+        self.ser.timeout = 2.0
     
     def sendData(self, data):
         if not self.ser.is_open:
@@ -40,14 +42,10 @@ class Serializer:
             Info.reportMsg("The port is closed. Opening...")
              
             self.ser.open()
-
-        Info.reportMsg("Flushing ...")
-        
-        self.ser.flush()
         
         Info.reportMsg("Reading data ...")
 
-        data = self.ser.read_all()
+        data = self.ser.read()
         
         Info.reportMsg("Closing port ...")
         

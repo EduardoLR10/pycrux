@@ -6,11 +6,13 @@ class ErrorOp(enum.Enum):
     byte =  3
     removal = 4
     unreachable = 5
+    noError = 6
     
 errDict = {"-b" : ErrorOp.bit,
            "-y" : ErrorOp.byte,
            "-u" : ErrorOp.burst,
-           "-r" : ErrorOp.removal}
+           "-r" : ErrorOp.removal,
+           "-n" : ErrorOp.noError}
 
 class ErrorInfo(enum.Enum):
     operation = 1

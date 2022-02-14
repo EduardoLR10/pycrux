@@ -11,10 +11,6 @@ import info
 
 def main():
     
-    if len(sys.argv) < 2:
-        Info.errorMsg("No data file!", ErrorInfo.dataFile)
-        return
-
     if len(sys.argv) < 4:
         info.__REPORT__ = False
     else:
@@ -22,6 +18,10 @@ def main():
              info.__REPORT__ = True
         else:
              info.__REPORT__ = False
+
+    if len(sys.argv) < 2:
+        Info.errorMsg("No data file!", ErrorInfo.dataFile)
+        return
         
     Info.infoMsg("Loading and parsing data file ...")
     data = parseDataFile(sys.argv[1])
@@ -57,6 +57,12 @@ def main():
     Info.infoMsg("Receiving data using serial port ...")
     data = serial.receiveData()
     Info.infoMsg("Received: " + str(data))
+    # data = serial.receiveData()
+    # Info.infoMsg("Received: " + str(data))
+    # data = serial.receiveData()
+    # Info.infoMsg("Received: " + str(data))
+    # data = serial.receiveData()
+    # Info.infoMsg("Received: " + str(data))
     Info.infoMsg("Data was received successfully!")
 
 if __name__ == "__main__":
