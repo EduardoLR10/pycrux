@@ -2,6 +2,7 @@ from error import errDict
 from error import ErrorInfo
 from error import ErrorOp
 from info import Info
+from target import targetDict
 from os import stat
 
 def parseDataFile(filepath):
@@ -33,6 +34,13 @@ def parseErrorType(sErr):
     else:
         Info.errorMsg("Invalid error operation type!", ErrorInfo.operation)
         return ErrorOp.unreachable
+
+def parseTargetType(sTar):
+    if sTar in targetDict:
+        return targetDict[sTar]
+    else:
+        Info.errorMsg("Invalid target type!", ErrorInfo.target)
+    
 
     
 

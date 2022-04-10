@@ -1,22 +1,42 @@
 from error import ErrorOp
 from error import ErrorInfo
+from target import Target
 from info import Info
 import random
 
 class Randomizer:
-    def __init__(self, errType, dataBytes):
+    def __init__(self, errType, target, dataBytes):
         self.errType = errType
         self.dataBytes = dataBytes
+        self.target = target
+
+    def __pickTarget(self, function):
+
+        if self.target == Target.allBytes:
+            Info.infoMsg("Chosen target: All Bytes")
+            self.dataBytes = function(self.dataBytes)
+        elif self.target == Target.header:
+            Info.infoMsg("Chosen target: Header")
+            newHeader = function(self.dataBytes[0:2])
+            self.dataBytes[0] = newHeader[0]
+            self.dataBytes[1] = newHeader[1]
+        elif self.target == Target.payload:
+            Info.infoMsg("Chosen target: Payload")
+            newPayload = function(self.dataBytes[2:(len(self.dataBytes))])
+            for i in range(0, len(newPayload)):
+                self.dataBytes[i + 2] = newPayload[i]
+        else:
+            Info.errorMsg("Unreachable in pickTarget()", ErrorInfo.unreachable)
 
     def applyError(self):
         if self.errType == ErrorOp.burst:
-            self.__execBurst()
+            self.__pickTarget(self.__execBurst)
         elif self.errType == ErrorOp.bit:
-            self.__execBit()
+            self.__pickTarget(self.__execBit)
         elif self.errType == ErrorOp.byte:
-            self.__execByte()
+            self.__pickTarget(self.__execByte)
         elif self.errType == ErrorOp.removal:
-            self.__execRemoval()
+            self.__pickTarget(self.__execRemoval)
         elif self.errType == ErrorOp.noError:
             self.__noError()
         else:
@@ -26,12 +46,12 @@ class Randomizer:
         Info.infoMsg("No error will be applied to data ...")
         return
             
-    def __execBurst(self):
+    def __execBurst(self, byteArray):
         Info.infoMsg("Randomly applying burst error within data ...")
 
         Info.reportMsg("Chosen error operation: Burst")
         
-        size = len(self.dataBytes)
+        size = len(byteArray)
 
         if size < 2:
             Info.errorMsg("It is necessary 2 or more bytes to use Burst error!", ErrorInfo.notEnoughBytes)
@@ -39,7 +59,7 @@ class Randomizer:
         
         howmany = 0
         
-        while howmany < 2:
+        while howmany < 1:
             howmany = random.randint(0, size - 1)
 
         first = random.randint(0, size - howmany)
@@ -47,21 +67,24 @@ class Randomizer:
         Info.reportMsg(str(howmany) + " bytes will be changed, starting from byte " + str(first))
 
         for i in range(first, first + howmany):
-            previous = self.dataBytes[i]
-            self.dataBytes[i] = int.from_bytes(random.randbytes(1), byteorder = 'big')
-            Info.reportMsg("Byte " + str(i) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[i]))
+            previous = byteArray[i]
+            byteArray[i] = int.from_bytes(random.randbytes(1), byteorder = 'big')
+            printIndex = (i + 2) if self.target == Target.payload else i
+            Info.reportMsg("Byte " + str(printIndex) + " changed from value " + str(previous) + " to value " + str(byteArray[i]))
+
+        return byteArray
         
-    def __execBit(self):
+    def __execBit(self, byteArray):
         Info.infoMsg("Randomly applying bit error within data ...")
 
         Info.reportMsg("Chosen error operation: Bit")
 
-        size = len(self.dataBytes)
+        size = len(byteArray)
         chosenByteIndex = random.randint(0, size - 1)
 
-        Info.reportMsg("Byte " + str(chosenByteIndex) + " with value " + str(self.dataBytes[chosenByteIndex]) + " was chosen to apply bit error")
+        Info.reportMsg("Byte " + str(chosenByteIndex) + " with value " + str(byteArray[chosenByteIndex]) + " was chosen to apply bit error")
 
-        bitstring = format(self.dataBytes[chosenByteIndex], 'b').zfill(8)
+        bitstring = format(byteArray[chosenByteIndex], 'b').zfill(8)
 
         Info.reportMsg("Original bit string of byte " + str(chosenByteIndex) + ": " + bitstring)
 
@@ -80,39 +103,47 @@ class Randomizer:
             else:
                 newBitstring += bitstring[i]
 
-        Info.reportMsg("New bit string of byte " + str(chosenByteIndex) + ": " + newBitstring)
+        printIndex = (chosenByteIndex + 2) if self.target == Target.payload else chosenByteIndex
+        Info.reportMsg("New bit string of byte " + str(printIndex) + ": " + newBitstring)
 
-        self.dataBytes[chosenByteIndex] = int(newBitstring, 2)
+        byteArray[chosenByteIndex] = int(newBitstring, 2)
 
-    def __execByte(self):
+        return byteArray
+
+    def __execByte(self, byteArray):
         Info.infoMsg("Randomly applying byte error within data ...")       
 
         Info.reportMsg("Chosen error operation: Byte")
 
-        size = len(self.dataBytes)
+        size = len(byteArray)
         chosenByteIndex = random.randint(0, size - 1)
 
-        previous = self.dataBytes[chosenByteIndex]
-        self.dataBytes[chosenByteIndex] = int.from_bytes(random.randbytes(1), byteorder = 'big')
+        previous = byteArray[chosenByteIndex]
+        byteArray[chosenByteIndex] = int.from_bytes(random.randbytes(1), byteorder = 'big')
 
-        Info.reportMsg("Byte " + str(chosenByteIndex) + " changed from value " + str(previous) + " to value " + str(self.dataBytes[chosenByteIndex]))
+        printIndex = (chosenByteIndex + 2) if self.target == Target.payload else chosenByteIndex
+        Info.reportMsg("Byte " + str(printIndex) + " changed from value " + str(previous) + " to value " + str(byteArray[chosenByteIndex]))
+
+        return byteArray
         
-    def __execRemoval(self):
+    def __execRemoval(self, byteArra):
         Info.infoMsg("Randomly applying removal of byte error within data ...")
 
         Info.reportMsg("Chosen error operation: Removal")
         
-        size = len(self.dataBytes)
+        size = len(byteArray)
         chosenByteIndex = random.randint(0, size - 1)
 
         newByteArray = []
 
         for i in range(0, size):
             if i != chosenByteIndex:
-                newByteArray.append(self.dataBytes[i])
+                newByteArray.append(byteArray[i])
         
-        Info.reportMsg("Byte " + str(chosenByteIndex) + " with value " + str(self.dataBytes[chosenByteIndex]) + " was removed")
-        self.dataBytes = newByteArray
+        Info.reportMsg("Byte " + str(chosenByteIndex) + " with value " + str(byteArray[chosenByteIndex]) + " was removed")
+        byteArray = newByteArray
+
+        return byteArray
         
         
         

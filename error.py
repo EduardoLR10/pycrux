@@ -23,7 +23,8 @@ class ErrorInfo(enum.Enum):
     noErrorArg = 6
     serialDevice = 7
     notEnoughBytes = 8
-    unreachable = 9
+    target = 9
+    unreachable = 10
 
 class ErrorSerial(enum.Enum):
     noPortProvided = 1

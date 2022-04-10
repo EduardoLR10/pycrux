@@ -1,6 +1,7 @@
 from error import ErrorInfo
 from error import ErrorOp
 from error import errDict
+from target import targetDict
 
 global __REPORT__
 
@@ -14,9 +15,15 @@ class Info :
     def printHelpOps():
         Info.helpMsg("Available operations to introduce error: ")
 
-        ops = ""
         for op in errDict:
             Info.helpMsg(str(op) + " " + str(errDict[op]))
+
+    @staticmethod
+    def printHelpTargets():
+        Info.helpMsg("Available targets to introduce error: ")
+
+        for target in targetDict:
+            Info.helpMsg(str(target) + " " + str(targetDict[target]))
     
     @staticmethod
     def errorMsg(msg, err):
@@ -37,6 +44,8 @@ class Info :
             print("[ERROR] Error with serial device!")
         elif err == ErrorInfo.notEnoughBytes:
             print("[ERROR] Not enough bytes!")
+        elif err == ErrorInfo.target:
+            Info.printHelpTargets()
         else:
             print("[ERROR] Unreachable state! Program is nuked!")
 

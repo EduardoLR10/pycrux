@@ -16,16 +16,22 @@ There are 4 different types of errors available in the current version of the so
 
 To execute the software, being in the correct directory, use something like:
 
-``` python pycrux.py data.txt -x ```
+``` python pycrux.py data.txt -x -z --report```
 
-In the example `x` needs to be one of the following:
+In the example `-x` needs to be one of the following:
 
 - -u for Burst Error
 - -y for Byte Error
 - -b for Bit Error
 - -r for Removal Error
 
-There is a bonus flag, `--report`, which adds more granular information of the process, in addition to the general information system.
+In addition, `-z` controls which **target** the error will be applied:
+
+- -h for Header (the first two bytes)
+- -p for Payload (all bytes starting from the third byte)
+- -a for All Bytes
+
+There is an optional bonus flag, `--report`, which adds more granular information of the process, in addition to the general information system.
 
 ## Observations
 
